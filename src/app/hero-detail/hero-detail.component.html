@@ -1,9 +1,13 @@
-<div *ngIf="selectedHero">
-  <h2>{{selectedHero.name | uppercase}} Details</h2>
-  <div><span>id: </span>{{selectedHero.id}}</div>
+<div *ngIf="hero">
+
+  <h2>{{hero.name | uppercase}} Details</h2>
+  <div><span>id: </span>{{hero.id}}</div>
+  <div>Power Level: {{hero.powerLevel | number}}</div>
   <div>
-    <label>name:
-      <input [(ngModel)]="selectedHero.name" placeholder="name" />
+    <label>Name:
+      <input [(ngModel)]="hero.name" placeholder="name" />
     </label>
   </div>
+  <button (click)="goBack()">return</button>
+  <button (click)="save()">save</button>
 </div>

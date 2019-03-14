@@ -1,6 +1,20 @@
+<div>
+  <label>
+    Hero name:
+    <input #heroName />
+  </label>
+  <button (click)="add(heroName.value); heroName.value=''">
+    add
+  </button>
+  <button (click)="delete(hero)">delete</button>
+</div>
+
 <ul class="heroes">
-  <li *ngFor="let hero of heroes" (click)="onSelect(hero)" [class.selected]="hero === selectedHero">
-    <span class="badge">{{hero.id}}</span> {{hero.name}}
+  <li *ngFor="let hero of heroes">
+    <a routerLink="/detail/{{hero.id}}">
+      <span class="badge">{{hero.id}}</span> {{hero.name}}
+    </a>
   </li>
 </ul>
-<app-hero-detail [hero]="selectedHero"></app-hero-detail>
+<!-- this component will now pass the state of "hero" when the class is selected to the child component. now all properties of the single "hero"
+object will be available to the child as simply hero.property. -->
