@@ -21,6 +21,9 @@ export class HeroService {
 
   private heroesUrl: string = 'api/heroes';
 
+  constructor(
+    private http: HttpClient,
+    private messageService: MessageService) { }
 
 
   getHeroes(): Observable<Hero[]> {
@@ -30,6 +33,13 @@ export class HeroService {
         tap(_ => this.log('fetched heroes')),
         catchError(this.handleError('getHeroes', []))
       );
+  }
+  searchHeroes(term: string): Observable<Hero[]> {
+    if (!term) {return of([])}
+    return this.http.get<Hero[]>(`${this.heroesUrl}/?name=${term}`).pipe(
+      tap(_ => this.log(`found hereos matching ${term}`)),
+      catchError(this.handleError<Hero[]>('searchHeroes',[]))
+    );
   }
   getHero(id: number): Observable<Hero> {
     const url = `${this.heroesUrl}/${id}`;
@@ -60,6 +70,8 @@ export class HeroService {
     );
   }
 
+
+
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
@@ -72,7 +84,4 @@ export class HeroService {
     this.messageService.add(`HeroService: ${message}`);
   }
 
-  constructor(
-    private http: HttpClient,
-    private messageService: MessageService) { }
 }
